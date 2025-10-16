@@ -5,29 +5,45 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Keybr</title>
-</head>
 
-<body>
-	<div id="mainDiv"></div>
-	<script type="module">
-		function addElement() {
-			// create a new div element
-			const newDiv = document.createElement("div");
-
-			// and give it some content
-			const newContent = document.createTextNode("Hi there and greetings!");
-
-			// add the text node to the newly created div
-			newDiv.appendChild(newContent);
-
-			// add the newly created element and its content into the DOM
-			const currentDiv = document.getElementById("div1");
-			document.body.insertBefore(newDiv, currentDiv);
+	<style>
+		nav {
+			display: flex;
+			flex-direction: row;
 		}
 
+		.key {
+			width: 6rem;
+			height: 6rem;
+			display: grid;
+			background-color: pink;
+			justify-content: center;
+			align-items: center;
+			border-radius: 0.5em;
+			color: black;
+			font-size: 2em;
+		}
+	</style>
+</head>
 
-		addElement()
-	</script>
+<nav>
+	<ul>
+		<li>
+			Home
+		</li>
+		<li>
+			Account
+		</li>
+	</ul>
+</nav>
+
+
+<main>
+	<div id="key_a" class="key">A</div>
+</main>
+
+<body>
+	<script src="index.js"></script>
 </body>
 
 </html>
