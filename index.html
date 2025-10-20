@@ -52,17 +52,55 @@
                 <div id="middle_row" class="key_row"></div>
                 <div id="bottom_row" class="key_row"></div>
             </div>
+
+            <section id="typing-area">
+                See typing below...
+                <p id="user-typing-area"></p>
+            </section>
         </main>
         <script>
+            const ALL_KEYS = [
+                "Q",
+                "W",
+                "E",
+                "R",
+                "T",
+                "Y",
+                "U",
+                "I",
+                "O",
+                "P",
+                "A",
+                "S",
+                "D",
+                "F",
+                "G",
+                "H",
+                "J",
+                "K",
+                "L",
+                "Z",
+                "X",
+                "C",
+                "V",
+                "B",
+                "N",
+                "M",
+            ];
+
+            const user_typing_area =
+                document.getElementById("user-typing-area");
+            let userText = [];
+
             /**
              * Returns the HTML for a key
              * @param {string} key_name - The name of the key
              * @returns {string} - Returns the HTML with all the appropriate styling and options etc
              */
             function newKeyHTML(key_name) {
-                const html = `<button class="key" id="key_${key_name}">
+                const html = `<div class="key" id="key_${key_name}">
                   ${key_name}
-              </button>`;
+              </div>`;
                 return html;
             }
 
@@ -102,13 +140,19 @@
             middle_row.innerHTML = MIDDLE_ROW_LETTERS.map(newKeyHTML).join("");
             bottom_row.innerHTML = BOTTOM_ROW_LETTERS.map(newKeyHTML).join("");
 
-            let text = "HELLO WORLD MY NAME IS";
+            let textToWrite = "HELLO WORLD MY NAME IS";
 
-            document.addEventListener("keypress", function onEvent(event) {
-                if (event.key === "j") {
-                console.log("Pressed J");
-                console.log(event);
+            //TODO Add check to make sure the event.key is part of the allowed characters i.e ALL_KEYS
+            document.addEventListener("keydown", function onEvent(event) {
+                if (event.key === "Backspace") {
+                    userText.pop();
+                    // checks for a regular character
+                } else if (event.key.length === 1) {
+                    userText.push(event.key);
                 }
+
+                user_typing_area.textContent = `${userText.join("")} |`;
+                // console.log(userText.join(""));
             });
         </script>
     </body>
