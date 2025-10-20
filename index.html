@@ -1,51 +1,115 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Keybr</title>
 
-<head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Keybr</title>
+        <style>
+            nav {
+                display: flex;
+                flex-direction: row;
+            }
+            #keyboard {
+                display: flex;
+                flex-direction: column;
+                gap: 0.5rem;
+                background-color: grey;
+                border-radius: 2rem;
+                padding: 0.5rem;
+            }
+            .key {
+                width: 6rem;
+                height: 6rem;
+                display: grid;
+                background-color: pink;
+                justify-content: center;
+                align-items: center;
+                border-radius: 0.5em;
+                color: black;
+                font-size: 2em;
+            }
 
-	<style>
-		nav {
-			display: flex;
-			flex-direction: row;
-		}
+            .key_row {
+                display: flex;
+                gap: 0.5rem;
+                justify-content: space-around;
+            }
+        </style>
+    </head>
 
-		.key {
-			width: 6rem;
-			height: 6rem;
-			display: grid;
-			background-color: pink;
-			justify-content: center;
-			align-items: center;
-			border-radius: 0.5em;
-			color: black;
-			font-size: 2em;
-		}
-	</style>
-</head>
+    <body>
+        <nav>
+            <ul>
+                <li>Home</li>
+                <li>Account</li>
+            </ul>
+        </nav>
 
-<nav>
-	<ul>
-		<li>
-			Home
-		</li>
-		<li>
-			Account
-		</li>
-	</ul>
-</nav>
+        <main id="main">
+            <div id="keyboard">
+                <div id="top_row" class="key_row"></div>
+                <div id="middle_row" class="key_row"></div>
+                <div id="bottom_row" class="key_row"></div>
+            </div>
+        </main>
+        <script>
+            /**
+             * Returns the HTML for a key
+             * @param {string} key_name - The name of the key
+             * @returns {string} - Returns the HTML with all the appropriate styling and options etc
+             */
+            function newKeyHTML(key_name) {
+                const html = `<button class="key" id="key_${key_name}">
+                  ${key_name}
+              </button>`;
+                return html;
+            }
 
+            let main = document.getElementById("main");
+            const top_row = document.getElementById("top_row");
+            const middle_row = document.getElementById("middle_row");
+            const bottom_row = document.getElementById("bottom_row");
+            const TOP_ROW_LETTERS = [
+                "Q",
+                "W",
+                "E",
+                "R",
+                "T",
+                "Y",
+                "U",
+                "I",
+                "O",
+                "P",
+            ];
+            const MIDDLE_ROW_LETTERS = [
+                "A",
+                "S",
+                "D",
+                "F",
+                "G",
+                "H",
+                "J",
+                "K",
+                "L",
+            ];
+            const BOTTOM_ROW_LETTERS = ["Z", "X", "C", "V", "B", "N", "M"];
+            let topRowButtonsHTML = "";
+            let middleRowButtonsHTML = "";
+            let bottomRowButtonsHTML = "";
 
-<main>
-	<div id="key_a" class="key">A</div>
-	<div id="key_b" class="key">B</div>
-<button> Start </button>
-</main>
+            top_row.innerHTML = TOP_ROW_LETTERS.map(newKeyHTML).join("");
+            middle_row.innerHTML = MIDDLE_ROW_LETTERS.map(newKeyHTML).join("");
+            bottom_row.innerHTML = BOTTOM_ROW_LETTERS.map(newKeyHTML).join("");
 
-<body>
-	<script src="index.js"></script>
-</body>
+            let text = "HELLO WORLD MY NAME IS";
 
+            document.addEventListener("keypress", function onEvent(event) {
+                if (event.key === "j") {
+                console.log("Pressed J");
+                console.log(event);
+                }
+            });
+        </script>
+    </body>
 </html>
