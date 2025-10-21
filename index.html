@@ -59,7 +59,7 @@
             </section>
         </main>
         <script>
-            const ALL_KEYS = [
+            const ALL_LETTERS_UPPERCASE = [
                 "Q",
                 "W",
                 "E",
@@ -88,10 +88,53 @@
                 "M",
             ];
 
-            const user_typing_area =
-                document.getElementById("user-typing-area");
-            let userText = [];
+            const ALL_LETTERS_LOWERCASE = ALL_LETTERS_UPPERCASE.map((letter) =>
+                letter.toLowerCase(),
+            ).join(" ");
 
+            const TOP_ROW_LETTERS_UPPERCASE = [
+                "Q",
+                "W",
+                "E",
+                "R",
+                "T",
+                "Y",
+                "U",
+                "I",
+                "O",
+                "P",
+            ];
+            const TOP_ROW_LETTERS_LOWERCASE = TOP_ROW_LETTERS_UPPERCASE.map(
+                (letter) => letter.toLowerCase(),
+            ).join(" ");
+            const MIDDLE_ROW_LETTERS_UPPERCASE = [
+                "A",
+                "S",
+                "D",
+                "F",
+                "G",
+                "H",
+                "J",
+                "K",
+                "L",
+            ];
+            const MIDDLE_ROW_LETTERS_LOWERCASE =
+                MIDDLE_ROW_LETTERS_UPPERCASE.map((letter) =>
+                    letter.toLowerCase(),
+                ).join(" ");
+            const BOTTOM_ROW_LETTERS_UPPERCASE = [
+                "Z",
+                "X",
+                "C",
+                "V",
+                "B",
+                "N",
+                "M",
+            ];
+            const BOTTOM_ROW_LETTERS_LOWERCASE =
+                BOTTOM_ROW_LETTERS_UPPERCASE.map((letter) =>
+                    letter.toLowerCase(),
+                ).join(" ");
             /**
              * Returns the HTML for a key
              * @param {string} key_name - The name of the key
@@ -104,56 +147,45 @@
                 return html;
             }
 
-            let main = document.getElementById("main");
+            const main = document.getElementById("main");
             const top_row = document.getElementById("top_row");
             const middle_row = document.getElementById("middle_row");
             const bottom_row = document.getElementById("bottom_row");
-            const TOP_ROW_LETTERS = [
-                "Q",
-                "W",
-                "E",
-                "R",
-                "T",
-                "Y",
-                "U",
-                "I",
-                "O",
-                "P",
-            ];
-            const MIDDLE_ROW_LETTERS = [
-                "A",
-                "S",
-                "D",
-                "F",
-                "G",
-                "H",
-                "J",
-                "K",
-                "L",
-            ];
-            const BOTTOM_ROW_LETTERS = ["Z", "X", "C", "V", "B", "N", "M"];
+            const user_typing_area =
+                document.getElementById("user-typing-area");
+
+            let userText = [];
             let topRowButtonsHTML = "";
             let middleRowButtonsHTML = "";
             let bottomRowButtonsHTML = "";
 
-            top_row.innerHTML = TOP_ROW_LETTERS.map(newKeyHTML).join("");
-            middle_row.innerHTML = MIDDLE_ROW_LETTERS.map(newKeyHTML).join("");
-            bottom_row.innerHTML = BOTTOM_ROW_LETTERS.map(newKeyHTML).join("");
-
-            let textToWrite = "HELLO WORLD MY NAME IS";
+            top_row.innerHTML =
+                TOP_ROW_LETTERS_UPPERCASE.map(newKeyHTML).join("");
+            middle_row.innerHTML =
+                MIDDLE_ROW_LETTERS_UPPERCASE.map(newKeyHTML).join("");
+            bottom_row.innerHTML =
+                BOTTOM_ROW_LETTERS_UPPERCASE.map(newKeyHTML).join("");
 
             //TODO Add check to make sure the event.key is part of the allowed characters i.e ALL_KEYS
             document.addEventListener("keydown", function onEvent(event) {
                 if (event.key === "Backspace") {
                     userText.pop();
                     // checks for a regular character
-                } else if (event.key.length === 1) {
+                } else if (
+                    event.key.length === 1 &&
+                    ALL_LETTERS_LOWERCASE.includes(event.key)
+                ) {
                     userText.push(event.key);
                 }
 
                 user_typing_area.textContent = `${userText.join("")} |`;
                 // console.log(userText.join(""));
             });
+
+            // TODO change to only fetch 20 words at a time and then when user has completed the section then fetch the next 20
+            fetch("words.txt")
+                .then((response) => response.text())
+                .then((text) => console.log(text));
         </script>
     </body>
 </html>
