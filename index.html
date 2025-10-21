@@ -1,191 +1,248 @@
 <!doctype html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Keybr</title>
 
-        <style>
-            nav {
-                display: flex;
-                flex-direction: row;
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Keybr</title>
+
+    <style>
+        nav {
+            display: flex;
+            flex-direction: row;
+        }
+
+        #keyboard {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            background-color: grey;
+            border-radius: 2rem;
+            padding: 0.5rem;
+        }
+
+        .key {
+            width: 6rem;
+            height: 6rem;
+            display: grid;
+            background-color: pink;
+            justify-content: center;
+            align-items: center;
+            border-radius: 0.5em;
+            color: black;
+            font-size: 2em;
+        }
+
+        .key_row {
+            display: flex;
+            gap: 0.5rem;
+            justify-content: space-around;
+        }
+
+        /*.typing-animation {
+                animation:
+                    typewriter 4s steps(44) 1s 1 normal both,
+                    blinkTextCursor 500ms steps(44) infinite normal;
+            }*/
+        .line-1 {
+            /*position: relative;*/
+            top: 50%;
+            /*width: 24em;*/
+            margin: 0 auto;
+            border-right: 2px solid rgba(255, 25, 255, 0.75);
+            font-size: 180%;
+            text-align: center;
+            white-space: nowrap;
+            overflow: hidden;
+            /*transform: translateY(-50%);*/
+        }
+
+        @keyframes typewriter {
+            from {
+                width: 0;
             }
-            #keyboard {
-                display: flex;
-                flex-direction: column;
-                gap: 0.5rem;
-                background-color: grey;
-                border-radius: 2rem;
-                padding: 0.5rem;
+
+            to {
+                width: 24em;
             }
-            .key {
-                width: 6rem;
-                height: 6rem;
-                display: grid;
-                background-color: pink;
-                justify-content: center;
-                align-items: center;
-                border-radius: 0.5em;
-                color: black;
-                font-size: 2em;
+        }
+
+        @keyframes blinkTextCursor {
+            from {
+                border-right-color: rgba(255, 255, 255, 0.75);
             }
 
-            .key_row {
-                display: flex;
-                gap: 0.5rem;
-                justify-content: space-around;
+            to {
+                border-right-color: transparent;
             }
-        </style>
-    </head>
+        }
+    </style>
+</head>
 
-    <body>
-        <nav>
-            <ul>
-                <li>Home</li>
-                <li>Account</li>
-            </ul>
-        </nav>
+<body>
+    <nav>
+        <ul>
+            <li>Home</li>
+            <li>Account</li>
+        </ul>
+    </nav>
 
-        <main id="main">
-            <div id="keyboard">
-                <div id="top_row" class="key_row"></div>
-                <div id="middle_row" class="key_row"></div>
-                <div id="bottom_row" class="key_row"></div>
-            </div>
+    <main id="main">
+        <div id="keyboard">
+            <div id="top_row" class="key_row"></div>
+            <div id="middle_row" class="key_row"></div>
+            <div id="bottom_row" class="key_row"></div>
+        </div>
 
-            <section id="typing-area">
-                See typing below...
-                <p id="user-typing-area"></p>
-            </section>
-        </main>
-        <script>
-            const ALL_LETTERS_UPPERCASE = [
-                "Q",
-                "W",
-                "E",
-                "R",
-                "T",
-                "Y",
-                "U",
-                "I",
-                "O",
-                "P",
-                "A",
-                "S",
-                "D",
-                "F",
-                "G",
-                "H",
-                "J",
-                "K",
-                "L",
-                "Z",
-                "X",
-                "C",
-                "V",
-                "B",
-                "N",
-                "M",
-            ];
+        <section id="typing-area">
+            See typing below...
+            <p id="user-typing-area" class="line-1 typing-animation"></p>
+        </section>
+    </main>
+    <script>
+        "use strict";
+        const ALL_LETTERS_UPPERCASE = [
+            "Q",
+            "W",
+            "E",
+            "R",
+            "T",
+            "Y",
+            "U",
+            "I",
+            "O",
+            "P",
+            "A",
+            "S",
+            "D",
+            "F",
+            "G",
+            "H",
+            "J",
+            "K",
+            "L",
+            "Z",
+            "X",
+            "C",
+            "V",
+            "B",
+            "N",
+            "M",
+        ];
 
-            const ALL_LETTERS_LOWERCASE = ALL_LETTERS_UPPERCASE.map((letter) =>
+        const ALL_LETTERS_LOWERCASE = ALL_LETTERS_UPPERCASE.map((letter) =>
+            letter.toLowerCase(),
+        ).join(" ");
+
+        const TOP_ROW_LETTERS_UPPERCASE = [
+            "Q",
+            "W",
+            "E",
+            "R",
+            "T",
+            "Y",
+            "U",
+            "I",
+            "O",
+            "P",
+        ];
+        const TOP_ROW_LETTERS_LOWERCASE = TOP_ROW_LETTERS_UPPERCASE.map(
+            (letter) => letter.toLowerCase(),
+        ).join(" ");
+        const MIDDLE_ROW_LETTERS_UPPERCASE = [
+            "A",
+            "S",
+            "D",
+            "F",
+            "G",
+            "H",
+            "J",
+            "K",
+            "L",
+        ];
+        const MIDDLE_ROW_LETTERS_LOWERCASE =
+            MIDDLE_ROW_LETTERS_UPPERCASE.map((letter) =>
                 letter.toLowerCase(),
             ).join(" ");
-
-            const TOP_ROW_LETTERS_UPPERCASE = [
-                "Q",
-                "W",
-                "E",
-                "R",
-                "T",
-                "Y",
-                "U",
-                "I",
-                "O",
-                "P",
-            ];
-            const TOP_ROW_LETTERS_LOWERCASE = TOP_ROW_LETTERS_UPPERCASE.map(
-                (letter) => letter.toLowerCase(),
+        const BOTTOM_ROW_LETTERS_UPPERCASE = [
+            "Z",
+            "X",
+            "C",
+            "V",
+            "B",
+            "N",
+            "M",
+        ];
+        const BOTTOM_ROW_LETTERS_LOWERCASE =
+            BOTTOM_ROW_LETTERS_UPPERCASE.map((letter) =>
+                letter.toLowerCase(),
             ).join(" ");
-            const MIDDLE_ROW_LETTERS_UPPERCASE = [
-                "A",
-                "S",
-                "D",
-                "F",
-                "G",
-                "H",
-                "J",
-                "K",
-                "L",
-            ];
-            const MIDDLE_ROW_LETTERS_LOWERCASE =
-                MIDDLE_ROW_LETTERS_UPPERCASE.map((letter) =>
-                    letter.toLowerCase(),
-                ).join(" ");
-            const BOTTOM_ROW_LETTERS_UPPERCASE = [
-                "Z",
-                "X",
-                "C",
-                "V",
-                "B",
-                "N",
-                "M",
-            ];
-            const BOTTOM_ROW_LETTERS_LOWERCASE =
-                BOTTOM_ROW_LETTERS_UPPERCASE.map((letter) =>
-                    letter.toLowerCase(),
-                ).join(" ");
-            /**
-             * Returns the HTML for a key
-             * @param {string} key_name - The name of the key
-             * @returns {string} - Returns the HTML with all the appropriate styling and options etc
-             */
-            function newKeyHTML(key_name) {
-                const html = `<div class="key" id="key_${key_name}">
+        /**
+         * Returns the HTML for a key
+         * @param {string} key_name - The name of the key
+         * @returns {string} - Returns the HTML with all the appropriate styling and options etc
+         */
+        function newKeyHTML(key_name) {
+            const html = `<div class="key" id="key_${key_name}">
                   ${key_name}
               </div>`;
-                return html;
+            return html;
+        }
+
+        const main = document.getElementById("main");
+        const top_row = document.getElementById("top_row");
+        const middle_row = document.getElementById("middle_row");
+        const bottom_row = document.getElementById("bottom_row");
+        const user_typing_area =
+            document.getElementById("user-typing-area");
+
+        let userText = [];
+        let topRowButtonsHTML = "";
+        let middleRowButtonsHTML = "";
+        let bottomRowButtonsHTML = "";
+
+        top_row.innerHTML =
+            TOP_ROW_LETTERS_UPPERCASE.map(newKeyHTML).join("");
+        middle_row.innerHTML =
+            MIDDLE_ROW_LETTERS_UPPERCASE.map(newKeyHTML).join("");
+        bottom_row.innerHTML =
+            BOTTOM_ROW_LETTERS_UPPERCASE.map(newKeyHTML).join("");
+
+        //TODO Add check to make sure the event.key is part of the allowed characters i.e ALL_KEYS
+        document.addEventListener("keydown", function onEvent(event) {
+            if (event.key === "Backspace") {
+                userText.pop();
+                // checks for a regular character
+            } else if (
+                event.key.length === 1 &&
+                ALL_LETTERS_LOWERCASE.includes(event.key)
+            ) {
+                userText.push(event.key);
             }
 
-            const main = document.getElementById("main");
-            const top_row = document.getElementById("top_row");
-            const middle_row = document.getElementById("middle_row");
-            const bottom_row = document.getElementById("bottom_row");
-            const user_typing_area =
-                document.getElementById("user-typing-area");
+            user_typing_area.textContent = `${userText.join("")}`;
+            // console.log(userText.join(""));
+        });
 
-            let userText = [];
-            let topRowButtonsHTML = "";
-            let middleRowButtonsHTML = "";
-            let bottomRowButtonsHTML = "";
-
-            top_row.innerHTML =
-                TOP_ROW_LETTERS_UPPERCASE.map(newKeyHTML).join("");
-            middle_row.innerHTML =
-                MIDDLE_ROW_LETTERS_UPPERCASE.map(newKeyHTML).join("");
-            bottom_row.innerHTML =
-                BOTTOM_ROW_LETTERS_UPPERCASE.map(newKeyHTML).join("");
-
-            //TODO Add check to make sure the event.key is part of the allowed characters i.e ALL_KEYS
-            document.addEventListener("keydown", function onEvent(event) {
-                if (event.key === "Backspace") {
-                    userText.pop();
-                    // checks for a regular character
-                } else if (
-                    event.key.length === 1 &&
-                    ALL_LETTERS_LOWERCASE.includes(event.key)
-                ) {
-                    userText.push(event.key);
-                }
-
-                user_typing_area.textContent = `${userText.join("")} |`;
-                // console.log(userText.join(""));
+        // TODO change to only fetch 20 words at a time and then when user has completed the section then fetch the next 20. this should be done if loading all the words at the start is not optimal. needs testing
+        let words_to_type = [];
+        let characters_to_type = [];
+        fetch("words.txt")
+            .then((response) => response.text())
+            .then((word) => {
+                // console.log(word);
+                words_to_type.push(word);
+                return word;
+            })
+            .then((word) => {
+                // console.log(word);
+                return word.split("");
+            })
+            .then((char) => {
+                characters_to_type.push(char);
+                // console.log(characters);
             });
+    </script>
+</body>
 
-            // TODO change to only fetch 20 words at a time and then when user has completed the section then fetch the next 20
-            fetch("words.txt")
-                .then((response) => response.text())
-                .then((text) => console.log(text));
-        </script>
-    </body>
 </html>
